@@ -1,0 +1,116 @@
+syntax = "proto3";
+
+package api.notifications;
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/indikay/notification-service/api/notifications;notifications";
+option java_multiple_files = true;
+option java_package = "api.notifications";
+
+service Notification {
+	rpc GetListUserNotification(GetListUserNotificationRequest) returns(GetListUserNotificationResponse){
+		option (google.api.http) = {
+			get: "/api/notifications/v1/user_notification"
+		};
+	}
+
+	rpc ReadNotification(ReadNotificationRequest) returns(ReadNotificationResponse){
+		option (google.api.http) = {
+			post: "/api/notifications/v1/read"
+			body: "*"
+		};
+	}
+
+	rpc ReadAllNotification(ReadNotificationAllRequest) returns(ReadNotificationAllResponse){
+		option (google.api.http) = {
+			post: "/api/notifications/v1/read_all"
+			body: "*"
+		};
+	}
+
+	rpc TelegramActivation(TelegramActivationRequest) returns (TelegramActivationResponse) {
+    option (google.api.http) = {
+      get: "/api/notifications/v1/register/telegram/{token}"
+    };
+  };
+
+	rpc GetNotificationSettings(google.protobuf.Empty) returns (GetNotificationSettingsResponse) {
+    option (google.api.http) = {
+      get: "/api/notifications/v1/setting"
+    };
+  };
+}
+
+
+
+message NotificationData{
+	string notification_id = 1;
+	string user_id = 2;
+	string title_key = 3;
+	message Data{
+		string amount = 1;
+		string symbol = 2;
+		string code = 3;
+		string message = 4;
+		string tx = 5;
+		string name = 6;
+    string referral = 7;
+	}
+	bool read = 4;
+	string created_time = 5;
+	Data data = 6;
+}
+
+message GetListUserNotificationRequest {}
+message GetListUserNotificationResponse {
+	int32 code = 1;
+	string key = 2;
+	string message = 3;
+	repeated NotificationData data = 4;
+	int64 total = 5;
+}
+
+message ReadNotificationRequest{
+	string notification_id = 1;
+}
+
+message ReadNotificationResponse{
+	int32 code = 1;
+	string key = 2;
+	string message = 3;
+	repeated NotificationData data = 4;
+}
+
+message  ReadNotificationAllRequest{}
+message  ReadNotificationAllResponse{
+	int32 code = 1;
+	string key = 2;
+	string message = 3;
+	repeated NotificationData data = 4;
+}
+
+message TelegramActivationRequest {
+  string token = 1;
+}
+
+message TelegramActivationResponse {
+  int64 code = 1;
+  string msg = 2;
+  string msg_key = 3;
+}
+
+message GetNotificationSettingsRequest {
+	string type = 1;
+}
+
+message GetNotificationSettingsResponse {
+	message NotificationSetting {
+		string type = 1;
+		bool active = 2;
+	}
+  int64 code = 1;
+  string msg = 2;
+  string msg_key = 3;
+	repeated NotificationSetting data = 4;
+}

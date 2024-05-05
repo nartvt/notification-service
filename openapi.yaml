@@ -1,0 +1,203 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: Notification API
+    version: 0.0.1
+paths:
+    /api/notifications/v1/read:
+        post:
+            tags:
+                - Notification
+            operationId: Notification_ReadNotification
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.notifications.ReadNotificationRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.notifications.ReadNotificationResponse'
+    /api/notifications/v1/read_all:
+        post:
+            tags:
+                - Notification
+            operationId: Notification_ReadAllNotification
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/api.notifications.ReadNotificationAllRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.notifications.ReadNotificationAllResponse'
+    /api/notifications/v1/register/telegram/{token}:
+        get:
+            tags:
+                - Notification
+            operationId: Notification_TelegramActivation
+            parameters:
+                - name: token
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.notifications.TelegramActivationResponse'
+    /api/notifications/v1/setting:
+        get:
+            tags:
+                - Notification
+            operationId: Notification_GetNotificationSettings
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.notifications.GetNotificationSettingsResponse'
+    /api/notifications/v1/user_notification:
+        get:
+            tags:
+                - Notification
+            operationId: Notification_GetListUserNotification
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/api.notifications.GetListUserNotificationResponse'
+components:
+    schemas:
+        api.notifications.GetListUserNotificationResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                key:
+                    type: string
+                message:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.notifications.NotificationData'
+                total:
+                    type: string
+        api.notifications.GetNotificationSettingsResponse:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                msgKey:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.notifications.GetNotificationSettingsResponse_NotificationSetting'
+        api.notifications.GetNotificationSettingsResponse_NotificationSetting:
+            type: object
+            properties:
+                type:
+                    type: string
+                active:
+                    type: boolean
+        api.notifications.NotificationData:
+            type: object
+            properties:
+                notificationId:
+                    type: string
+                userId:
+                    type: string
+                titleKey:
+                    type: string
+                read:
+                    type: boolean
+                createdTime:
+                    type: string
+                data:
+                    $ref: '#/components/schemas/api.notifications.NotificationData_Data'
+        api.notifications.NotificationData_Data:
+            type: object
+            properties:
+                amount:
+                    type: string
+                symbol:
+                    type: string
+                code:
+                    type: string
+                message:
+                    type: string
+                tx:
+                    type: string
+                name:
+                    type: string
+                referral:
+                    type: string
+        api.notifications.ReadNotificationAllRequest:
+            type: object
+            properties: {}
+        api.notifications.ReadNotificationAllResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                key:
+                    type: string
+                message:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.notifications.NotificationData'
+        api.notifications.ReadNotificationRequest:
+            type: object
+            properties:
+                notificationId:
+                    type: string
+        api.notifications.ReadNotificationResponse:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    format: int32
+                key:
+                    type: string
+                message:
+                    type: string
+                data:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/api.notifications.NotificationData'
+        api.notifications.TelegramActivationResponse:
+            type: object
+            properties:
+                code:
+                    type: string
+                msg:
+                    type: string
+                msgKey:
+                    type: string
+tags:
+    - name: Notification

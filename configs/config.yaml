@@ -1,0 +1,43 @@
+server:
+  http:
+    addr: ${HTTP_ADDR:0.0.0.0:8000}
+    timeout: 30s
+  grpc:
+    addr: ${GRPC_ADDR:0.0.0.0:9000}
+    timeout: 2s
+  auth:
+    required: true
+    excludes: "/api.notifications.Notification/TelegramActivation"
+    auto_parse: true
+data:
+  database:
+    driver: ${DB_DRIVER:postgres}
+    source: ${DB_SOURCE:}
+  redis:
+    addr: ${REDIS_ADDR:127.0.0.1:6379}
+    pass: ${REDIS_PASS:}
+    ssl: ${REDIS_SSL:false}
+    db: ${REDIS_DB:0}
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+  nats:
+    nats_host: ${NATS_HOST:localhost:4222}
+    topic_publish: ${NATS_TOPIC:notification}
+  centrifugo:
+    http_addr: ${CENTRIFUGAL_HTTP_HOST:http://localhost:8000/api}
+    grpc_addr: ${CENTRIFUGAL_GRPC_HOST:localhost:10000}
+    socket_addr: ${SOCKET_ADDR:ws://localhost:8000/connection/websocket}
+    api_key: ${CENTRIFUGAL_HTTP_API_KEY:my_api_key}
+    grpc_api_key: ${CENTRIFUGAL_GRPC_API_KEY:my_grpc_key}
+    personal_channel_prefix: ${CENTRIFUGAL_CHANNEL_PREFIX:personal}
+    token_hmac_secret_key: ${CENTRIFUGAL_TOKEN_HMAC_SECRET_KEY:my_secretl}
+  telegram:
+    token: ${TELEGRAM_BOT_TOKEN:6667917403:AAGTp5A5_BcOn4cD1Jdw0UVytVvM7O12XyU}
+    url_activation: ${TELEGRAM_ACTIVATION_URL:http://localhost:8000/api/notifications/v1/register/telegram}
+    timeout: ${TELEGRAM_TIMEOUT:86400s}
+  email:
+    addr: ${EMAIL_SERVER:email-service.stag.svc.cluster.local:9000}
+    timeout: 10s
+  profile:
+    addr: ${PROFILE_SERVER:profile-service.stag.svc.cluster.local:9000}
+    timeout: 10s
